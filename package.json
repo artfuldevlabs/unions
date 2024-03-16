@@ -1,10 +1,20 @@
 {
   "name": "unions",
   "author": "artfuldev<hello@artful.dev>",
+  "version": "0.0.2-pre",
   "module": "src/index.ts",
   "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "bun build --target=node ./src/index.ts --outfile=dist/index.js && bun run build:declaration",
+    "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
+    "postbuild": "rimraf tsconfig.types.tsbuildinfo"
+  },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.2.2"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

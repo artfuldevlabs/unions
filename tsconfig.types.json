@@ -1,0 +1,14 @@
+/* Thanks to: https://groff.dev/blog/function-agents */
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "noEmit": false,
+      "emitDeclarationOnly": true,
+      "declaration": true,
+      "outDir": "./dist",
+      "rootDir": "./src",
+    },
+    "include": [
+      "src/**/*.ts"
+    ]
+  }
