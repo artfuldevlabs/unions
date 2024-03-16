@@ -1,49 +1,13 @@
-import { Fun } from "./helpers";
-import { Self } from "./self";
-import { Variant } from "./variant";
+import { SimpleConstructors } from "./simple";
+import { GenericConstructors } from "./generic";
+import { RecursiveConstructors } from "./recursive";
 
-type $Self = typeof Self;
+interface UnionConstructors<N extends string>
+  extends SimpleConstructors<N>,
+    GenericConstructors<N>,
+    RecursiveConstructors<N> {}
 
-export type Union<
-  Type extends string,
-  Variants extends Record<string, Fun<any[], $Self>>
-> = {
-  [Tag in keyof Variants]: Tag extends string
-    ? Variant<Type, Tag, Parameters<Variants[Tag]>>
-    : never;
-}[keyof Variants];
-
-export type UnionOf<C extends Constructors<any, any>> = C extends Constructors<
-  infer Type,
-  infer Variants
->
-  ? Union<Type, Variants>
-  : never;
-
-export type Constructors<
-  Type extends string,
-  Variants extends Record<string, Fun<any[], $Self>>
-> = {
-  [Tag in keyof Variants]: (
-    ...args: Parameters<Variants[Tag]>
-  ) => Union<Type, Variants>;
-};
-
-export const union = <
-  Type extends string,
-  Variants extends Record<string, Fun<any[], $Self>>
->(
-  type: Type,
-  variants: Variants
-): Constructors<Type, Variants> =>
-  Object.keys(variants).reduce(
-    (constructors, tag) => ({
-      ...constructors,
-      [tag]: (...args: any[]) => ({
-        type,
-        tag,
-        args,
-      }),
-    }),
-    {} as any
-  );
+export const union =
+  <N extends string>(name: N): UnionConstructors<N> =>
+  (s) =>
+    undefined as any;

@@ -1,8 +1,10 @@
-import { Self, recursive, of, union } from "../src";
+import { has, recursive, union } from "../src";
 
-const Natural = recursive(union("Natural", {
-  One: of<[]>(),
-  Incr: of<[n: typeof Self]>(),
-}));
+const Natural = union("Natural")(
+  recursive((N) => ({
+    One: has(),
+    Incr: has(N),
+  }))
+);
 const _one = Natural.One();
 const _three = Natural.Incr(Natural.Incr(Natural.One()));

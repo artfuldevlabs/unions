@@ -1,10 +1,8 @@
-import { UnionOf, of, union } from "../src";
+import { args, union } from "../src";
 
-const Boolean = union("Boolean", {
-  False: of<[]>(),
-  True: of<[]>(),
+const Boolean = union("Boolean")({
+  False: args(),
+  True: args(),
 });
-type Boolean = UnionOf<typeof Boolean>;
 const _false = Boolean.False();
 const _true = Boolean.True();
-

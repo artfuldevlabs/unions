@@ -1,8 +1,12 @@
-import { A, generic, of, union } from "../src";
+import { generic, has, of, union } from "../src";
 
-const Option = generic(union("Option", {
-  None: of<[]>(),
-  Some: of<[a: typeof A]>(),
-}));
+const Option = union("Option")(
+  generic((A) => ({
+    None: has(),
+    Some: has(A),
+  }))
+);
 const none = Option.None();
 const some = Option.Some(42);
+
+const x = [Option.Some(1), Option.Some(42)]
