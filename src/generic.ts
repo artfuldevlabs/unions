@@ -2,7 +2,8 @@ import { Replace } from "./helpers";
 import { Constructors, Union } from "./union";
 import { Recursive } from "./recursive";
 
-export type $A = "<A>";
+export const A = Symbol("A");
+type $A = typeof A;
 
 type Fix<U extends Union<any, any>, A> = {
   [K in keyof U]: K extends string
@@ -26,7 +27,8 @@ export const generic = <C extends Constructors<any, any> | Recursive<any>>(
   union: C,
 ): Generic<C> => union as any;
 
-export type $B = "<B>";
+export const B = Symbol("B");
+type $B = typeof B;
 
 type Fix2<U extends Union<any, any>, B, A> = {
   [K in keyof U]: K extends string

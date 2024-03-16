@@ -1,11 +1,11 @@
 import { Replace } from "./helpers";
-import { $Self } from "./self";
+import { Self } from "./self";
 import { Constructors } from "./union";
 
 export type Recursive<C extends Constructors<any, any>> = {
   [K in keyof C]: K extends string
     ? (
-        ...args: Replace<Parameters<C[K]>, $Self, ReturnType<C[K]>>
+        ...args: Replace<Parameters<C[K]>, typeof Self, ReturnType<C[K]>>
       ) => ReturnType<C[K]>
     : never;
 };

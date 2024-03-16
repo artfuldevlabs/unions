@@ -1,7 +1,7 @@
 {
   "name": "unions",
   "author": "artfuldev<hello@artful.dev>",
-  "version": "0.0.2-pre",
+  "version": "0.0.3-pre",
   "module": "src/index.ts",
   "type": "module",
   "main": "dist/index.js",

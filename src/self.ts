@@ -1,1 +1,1 @@
-export type $Self = "<self>";
+export const Self = Symbol("Self");
