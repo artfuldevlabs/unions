@@ -1,6 +1,6 @@
 import { A, B, generic2, of, union } from "../src";
 
-const Either = generic2(union("Boolean", {
+const Either = generic2(union("Either", {
   Left: of<[a: typeof A]>(),
   Right: of<[b: typeof B]>(),
 }));

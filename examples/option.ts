@@ -1,6 +1,6 @@
 import { A, generic, of, union } from "../src";
 
-const Option = generic(union("Boolean", {
+const Option = generic(union("Option", {
   None: of<[]>(),
   Some: of<[a: typeof A]>(),
 }));
