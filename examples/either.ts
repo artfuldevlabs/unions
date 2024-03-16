@@ -1,8 +1,10 @@
-import { A, B, generic2, of, union } from "../src";
+import { generic2, has, union } from "../src";
 
-const Either = generic2(union("Either", {
-  Left: of<[a: typeof A]>(),
-  Right: of<[b: typeof B]>(),
-}));
-const left = Either.Left<any, string>("1");
+const Either = union("Either")(
+  generic2((B, A) => ({
+    Left: has(A),
+    Right: has(B),
+  }))
+);
+const left = Either.Left("1");
 const right = Either.Right(42);
