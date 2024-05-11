@@ -1,10 +1,10 @@
-import { generic, recursive, union, of } from "../src";
+import { generic, recursive, union, of, has } from "../src";
 
 const List = union("List")(
-  recursive((ListA) =>
-    generic((A) => ({
-      Empty: of<[]>(),
-      Cons: of<[head: typeof A, tail: typeof ListA]>(),
+  recursive((La) =>
+    generic((a) => ({
+      Empty: has(),
+      Cons: has(a, La),
     }))
   )
 );

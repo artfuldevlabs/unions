@@ -1,8 +1,8 @@
-import { args, union } from "../src";
+import { has, union } from "../src";
 
 const Boolean = union("Boolean")({
-  False: args(),
-  True: args(),
+  False: has(),
+  True: has(),
 });
 const _false = Boolean.False();
 const _true = Boolean.True();

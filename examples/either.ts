@@ -6,5 +6,5 @@ const Either = union("Either")(
     Right: has(B),
   }))
 );
-const left = Either.Left("1");
-const right = Either.Right(42);
+const left = Either.Left<number, string>("1");
+const right = Either.Right<number, string>(42);

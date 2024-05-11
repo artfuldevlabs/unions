@@ -6,7 +6,7 @@ const Option = union("Option")(
     Some: has(A),
   }))
 );
-const none = Option.None();
+const none = Option.None<number>();
 const some = Option.Some(42);
 
 const x = [Option.Some(1), Option.Some(42)]

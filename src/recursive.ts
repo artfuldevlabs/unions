@@ -1,4 +1,6 @@
-import { FixA, ASpec, BASpec, FixBA } from "./generic";
+import { A } from "./a";
+import { B } from "./b";
+import { ASpec, BASpec } from "./generic";
 import { Fun, Replace } from "./helpers";
 import { SimpleSpec } from "./simple";
 import { Self, Spec } from "./spec";
@@ -31,30 +33,30 @@ type RSpec<S extends Spec, N extends string> = {
     : never;
 };
 
-type RFixA<S extends Spec, N extends string, A> = {
-  [K in keyof S]: K extends string
-    ? Replace<FixA<S, A>[K], typeof Self, Union<N, FixA<S, A>>>
-    : never;
-};
-
-type RFixBA<S extends Spec, N extends string, B, A> = {
-  [K in keyof S]: K extends string
-    ? Replace<FixBA<S, B, A>[K], typeof Self, Union<N, FixBA<S, B, A>>>
-    : never;
-};
-
 type Recursive<N extends string, S extends Spec> = {
   [K in keyof S]: Fun<RSpec<S, N>[K], Union<N, S>>;
 };
 
 type RecursiveA<N extends string, S extends Spec> = {
-  [K in keyof S]: <A>(...args: RFixA<S, N, A>[K]) => Union<N, FixA<S, A>>;
+  [K in keyof S]: <A>(...args: Replace<Replace<S[K], typeof A, A>, typeof Self, Union<N, {
+    [K in keyof S]: K extends string ? Replace<S[K], typeof A, A> : never;
+  }>>) => Union<N, {
+    [K in keyof S]: K extends string ? Replace<S[K], typeof A, A> : never;
+  }>;
 };
 
 type RecursiveBA<N extends string, S extends Spec> = {
   [K in keyof S]: <B, A>(
-    ...args: RFixBA<S, N, B, A>[K]
-  ) => Union<N, FixBA<S, B, A>>;
+    ...args: Replace<Replace<Replace<S[K], typeof A, A>, typeof B, B>, typeof Self, Union<N, {
+      [K in keyof S]: K extends string
+        ? Replace<Replace<S[K], typeof A, A>, typeof B, B>
+        : never;
+    }>>
+  ) => Union<N, {
+    [K in keyof S]: K extends string
+      ? Replace<Replace<S[K], typeof A, A>, typeof B, B>
+      : never;
+  }>;
 };
 
 export interface RecursiveConstructors<N extends string> {

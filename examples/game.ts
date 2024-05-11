@@ -1,4 +1,4 @@
-import { generic2, has, of, recursive, union } from "../src";
+import { generic2, has, recursive, union } from "../src";
 
 const Game = union("Game")(
   recursive((Game) =>

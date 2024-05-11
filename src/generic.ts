@@ -1,31 +1,19 @@
+import { A } from "./a";
+import { B } from "./b";
 import { Fun, Replace } from "./helpers";
 import { SimpleSpec } from "./simple";
 import { Spec } from "./spec";
 import { Union } from "./union.type";
-
-export const A = Symbol("A");
 
 export type ASpec<S extends Spec> = [
   "generic",
   [Fun<[typeof A], SimpleSpec<S>>]
 ];
 
-export type FixA<S extends Spec, A> = {
-  [K in keyof S]: K extends string ? Replace<S[K], typeof A, A> : never;
-};
-
-export const B = Symbol("B");
-
 export type BASpec<S extends Spec> = [
   "generic",
   [Fun<[typeof B, typeof A], SimpleSpec<S>>]
 ];
-
-export type FixBA<S extends Spec, B, A> = {
-  [K in keyof S]: K extends string
-    ? Replace<FixA<S, A>[K], typeof B, B>
-    : never;
-};
 
 export const generic = <S extends Spec>(
   spec: (a: typeof A) => SimpleSpec<S>
@@ -36,13 +24,19 @@ export const generic2 = <S extends Spec>(
 ): BASpec<S> => undefined as any;
 
 type GenericA<N extends string, S extends Spec> = {
-  [K in keyof S]: <A>(...args: FixA<S, A>[K]) => Union<N, FixA<S, A>>;
+  [K in keyof S]: <A>(...args: Replace<S[K], typeof A, A>) => Union<N, {
+    [K in keyof S]: K extends string ? Replace<S[K], typeof A, A> : never;
+  }>;
 };
 
 type GenericBA<N extends string, S extends Spec> = {
   [K in keyof S]: <B, A>(
-    ...args: FixBA<S, B, A>[K]
-  ) => Union<N, FixBA<S, B, A>>;
+    ...args: Replace<Replace<S[K], typeof A, A>, typeof B, B>
+  ) => Union<N, {
+    [K in keyof S]: K extends string
+      ? Replace<Replace<S[K], typeof A, A>, typeof B, B>
+      : never;
+  }>;
 };
 
 export interface GenericConstructors<N extends string> {
